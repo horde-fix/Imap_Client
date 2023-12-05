@@ -11,8 +11,10 @@
             "role": "lead"
         }
     ],
-    "time": "2023-12-05",
-    "repositories": [],
+    "version": "2.30.7",
+    "time": "2022-06-25",
+    "repositories": [
+    ],
     "require": {
         "php": "^5.3 || ^7",
         "horde/exception": "^2",
@@ -41,6 +43,8 @@
         "horde/test": "^2.2.7",
         "ext-intl": "*",
         "ext-mbstring": "*"
+    },
+    "replace": {
     },
     "autoload": {
         "psr-0": {
