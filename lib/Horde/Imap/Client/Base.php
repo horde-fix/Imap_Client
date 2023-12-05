@@ -2,7 +2,7 @@
 /**
  * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (LGPL). If you
+ * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
  *
  * @category  Horde
@@ -232,7 +232,7 @@ implements Serializable, SplObserver
      *            DEFAULT: 30 seconds
      * - username: (string) [REQUIRED] The username.
      * - authusername (string) The username used for SASL authentication.
-     * 	 If specified this is the user name whose password is used 
+     * 	 If specified this is the user name whose password is used
      * 	 (e.g. administrator).
      * 	 Only valid for RFC 2595/4616 - PLAIN SASL mechanism.
      * 	 DEFAULT: the same value provided in the username parameter.
@@ -346,6 +346,7 @@ implements Serializable, SplObserver
 
     /**
      */
+    #[ReturnTypeWillChange]
     public function update(SplSubject $subject)
     {
         if (($subject instanceof Horde_Imap_Client_Data_Capability) ||
@@ -363,11 +364,7 @@ implements Serializable, SplObserver
      */
     public function serialize()
     {
-        return serialize(array(
-            'i' => $this->_init,
-            'p' => $this->_params,
-            'v' => self::VERSION
-        ));
+        return serialize($this->__serialize());
     }
 
     /**
@@ -375,9 +372,27 @@ implements Serializable, SplObserver
     public function unserialize($data)
     {
         $data = @unserialize($data);
-        if (!is_array($data) ||
-            !isset($data['v']) ||
-            ($data['v'] != self::VERSION)) {
+        if (!is_array($data)) {
+            throw new Exception('Cache version change');
+        }
+        $this->__unserialize($data);
+    }
+
+    /**
+     * @return array
+     */
+    public function __serialize()
+    {
+        return array(
+            'i' => $this->_init,
+            'p' => $this->_params,
+            'v' => self::VERSION
+        );
+    }
+
+    public function __unserialize(array $data)
+    {
+        if (empty($data['v']) || $data['v'] != self::VERSION) {
             throw new Exception('Cache version change');
         }
 
