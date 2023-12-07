@@ -24,7 +24,7 @@
         "horde/exception": "^2",
         "horde/mail": "^2",
         "horde/mime": "^2.5.2",
-        "horde/socket_client": "^2",
+        "horde/socket_client": "^2.1.5.2",
         "horde/stream": "^1.4",
         "horde/secret": "^2",
         "horde/stream_filter": "^2",
